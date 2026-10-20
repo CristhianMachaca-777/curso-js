@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cuestionario</title>
+</head>
+<body>
+
+<!-- Construir un CUESTIONARIO (5 interrogantes)
+  Por cada Pregunta (cualquier pregunta)
+  3 alternativas
+  Utilizar botones de desplazamiento para la navegación ("Anterior","Siguiente")
+  Los datos que se iran mostrando deben estar en un OBJETO -->
+
+  <div style="width: 350px; margin: 50px auto; font-family: sans-serif;">
+    <h2 id="titulo-cuestionario"></h2>
+    <p id="info-instructor"></p>
+    <hr>
+    
+    <h3 id="pregunta-texto">Cargando...</h3>
+    <div id="alternativas-container">
+      <!-- Aquí se mostrarán las 3 alternativas -->
+    </div>
+
+    <br>
+    <button onclick="mover(-1)">Anterior</button>
+    <button onclick="mover(1)">Siguiente</button>
+  </div>
+
+  <script>
+    // Objeto con la información del cuestionario (5 preguntas)
+    const cuestionario = {
+      titulo: "Evaluación programación",
+      instructor: "Jhon Francia Minaya",
+      nivel: "fácil",
+      actual: 0,
+      contenido: [
+        { pregunta: "¿Qué es una BD?", alternativas: ["Base de datos", "Bloque digital", "Bucle directo"] },
+        { pregunta: "¿Qué es un LP?", alternativas: ["Lenguaje de programación", "Línea de proceso", "Lógica previa"] },
+        { pregunta: "¿Qué es un Sistema Operativo?", alternativas: ["Un juego", "Software base que administra recursos", "Un navegador web"] },
+        { pregunta: "¿Qué significa HTML?", alternativas: ["HyperText Markup Language", "High Tech Modern Link", "Home Tool Markup Language"] },
+        { pregunta: "¿Qué operador se usa para asignar valores en JS?", alternativas: ["==", "===", "="] }
+      ]
+    };
+
+    // Función para mostrar la pregunta actual en la interfaz
+    function mostrarPregunta() {
+      document.getElementById("titulo-cuestionario").textContent = cuestionario.titulo;
+      document.getElementById("info-instructor").textContent = "Instructor: " + cuestionario.instructor;
+
+      let p = cuestionario.contenido[cuestionario.actual];
+      document.getElementById("pregunta-texto").textContent = (cuestionario.actual + 1) + ". " + p.pregunta;
+
+      let htmlOpciones = "";
+      for (let i = 0; i < p.alternativas.length; i++) {
+        htmlOpciones += `<label><input type="radio" name="opcion"> ${p.alternativas[i]}</label><br><br>`;
+      }
+      document.getElementById("alternativas-container").innerHTML = htmlOpciones;
+    }
+
+    // Función de simulación para los botones de desplazamiento
+    function mover(direccion) {
+      cuestionario.actual += direccion;
+
+      if (cuestionario.actual < 0) {
+        cuestionario.actual = 0;
+      } else if (cuestionario.actual >= cuestionario.contenido.length) {
+        alert("¡Cuestionario Entregado!");
+        cuestionario.actual = cuestionario.contenido.length - 1;
+      }
+
+      mostrarPregunta();
+    }
+
+    // Cargar la primera pregunta al iniciar
+    mostrarPregunta();
+  </script>
+
+</body>
+</html>

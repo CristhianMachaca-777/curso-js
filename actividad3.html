@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cotización Básica</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .form-container {
+      background: #ffffff;
+      padding: 20px;
+      max-width: 400px;
+      margin: auto;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    /* Campos obligatorios */
+    .obligatorio::after {
+      content: " *";
+      color: red;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      width: 100%;
+      background-color: #007BFF;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Estilo para el cuadro de diálogo (alert nativo o modal) */
+    dialog {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 20px;
+      width: 300px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h2>Cotizar PC / Portátil</h2>
+    <form id="miFormulario">
+      
+      <!-- Campos Obligatorios -->
+      <div class="form-group">
+        <label for="nombre" class="obligatorio">Nombre</label>
+        <input type="text" id="nombre" required>
+      </div>
+
+      <div class="form-group">
+        <label for="equipo" class="obligatorio">Tipo de Equipo</label>
+        <select id="equipo" required>
+          <option value="">Seleccione...</option>
+          <option value="PC de Escritorio">PC de Escritorio</option>
+          <option value="Portátil">Portátil</option>
+        </select>
+      </div>
+
+      <!-- Campos No Obligatorios -->
+      <div class="form-group">
+        <label for="observaciones">Observaciones (Opcional)</label>
+        <input type="text" id="observaciones" placeholder="Ej. 16GB de RAM">
+      </div>
+
+      <button type="submit">Enviar</button>
+    </form>
+  </div>
+
+  <!-- Cuadro de diálogo -->
+  <dialog id="dialogo">
+    <p id="mensajeDialogo"></p>
+    <button onclick="cerrarDialogo()">Cerrar</button>
+  </dialog>
+
+  <script>
+    const formulario = document.getElementById('miFormulario');
+    const dialogo = document.getElementById('dialogo');
+    const mensajeDialogo = document.getElementById('mensajeDialogo');
+
+    formulario.addEventListener('submit', function(e) {
+      e.preventDefault(); // Evita que la página se recargue
+
+      const nombre = document.getElementById('nombre').value;
+      const equipo = document.getElementById('equipo').value;
+
+      // Mostrar confirmación en el cuadro de diálogo
+      mensajeDialogo.textContent = `¡Gracias ${nombre}! Su cotización para "${equipo}" ha sido recibida con éxito.`;
+      dialogo.showModal();
+    });
+
+    function cerrarDialogo() {
+      dialogo.close();
+      formulario.reset();
+    }
+  </script>
+
+</body>
+</html>
